@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        nav {
+            background-color: #4a148c;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        nav ul li {
+            margin-right: 30px;
+            font-size: 20px;
+            color: #fff;
+            cursor: pointer;
+        }
+        nav ul li:last-child {
+            margin-right: 0;
+        }
+        nav ul li:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #4a148c;
+        }
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            width: 250px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card h2 {
+            margin: 10px 0;
+            color: #4a148c;
+            font-size: 18px;
+        }
+        .card .bts {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        .card .btn {
+            font-size: 20px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #ff9800;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin: 0 15px;
+            transition: background-color 0.3s ease;
+        }
+        .card .btn:hover {
+            background-color: #e68900;
+        }
+        .card h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+
+    <script>
+        let cartValue = 0;
+        let products = [
+            { name: 'Camera', quantity: 10, imgSrc: '/images/camera.jpg' },
+            { name: 'Watch', quantity: 8, imgSrc: '/images/img2.jpeg' },
+            { name: 'Make up kit', quantity: 5, imgSrc: '/images/img3.jpg' },
+            { name: 'Earphone', quantity: 3, imgSrc: '/images/img4.jpg' }
+        ];
+
+        function renderProducts() {
+            const container = document.querySelector('.products-container');
+            container.innerHTML = ''; // Clear any existing content
+
+            products.forEach((product, index) => {
+                const productCard = `
+                    <div class="card">
+                        <img src="${product.imgSrc}" alt="${product.name}">
+                        <h2>${product.name}</h2>
+                        <div class="bts">
+                            <button onclick="removeCart(${index})" class="btn">-</button>
+                            <h3 id="quantity${index + 1}">${product.quantity}</h3>
+                            <button onclick="addCart(${index})" class="btn">+</button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += productCard;
+            });
+        }
+
+        function addCart(index) {
+            if (products[index].quantity > 0) {
+                cartValue++;
+                products[index].quantity--;
+                document.getElementById("cartNo").innerHTML = cartValue;
+                document.getElementById("quantity" + (index + 1)).innerHTML = products[index].quantity;
+            }
+        }
+
+        function removeCart(index) {
+            if (cartValue > 0 && products[index].quantity < 10) {
+                cartValue--;
+                products[index].quantity++;
+                document.getElementById("cartNo").innerHTML = cartValue;
+                document.getElementById("quantity" + (index + 1)).innerHTML = products[index].quantity;
+            }
+        }
+
+        window.onload = function() {
+            renderProducts(); // Render the products when the page loads
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>Home</li>
+                <li>Products</li>
+                <li>About Us</li>
+                <li>Cart <span id="cartNo">0</span></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Products</h1>
+        <div class="products-container"></div>
+    </main>
+</body>
+</html>
