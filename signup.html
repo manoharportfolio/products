@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+       
+    /* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.signup-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    padding: 30px;
+}
+
+.signup-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.signup-container label {
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.signup-container input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.signup-container input:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.signup-container button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.signup-container button:hover {
+    background-color: #0056b3;
+}
+
+.signup-container .login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.signup-container .login-link a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.signup-container .login-link a:hover {
+    text-decoration: underline;
+}
+
+ 
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name">
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email">
+
+        <input type="number" id="otp" style="display: none;" placeholder="Enter your OTP">
+
+        <button onclick="Verifying()" style="display: none;" id="verify">Verify</button><br>
+        <button onclick="otpCreate()">Get OTP</button>
+
+    
+
+        <p id="message" style="color: red; display: none;"></p>
+    </div>
+
+    <footer><h4>&copy; 2024 Manohar. All right</h4></footer>
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+(function(){
+  emailjs.init({
+    publicKey: "ukfyuJfuAnK7XT2jG",
+  });
+})();
+</script>
+    <script>
+ 
+
+        const Uname = document.getElementById("name");
+        const email = document.getElementById("email");
+        const otp = document.getElementById("otp");
+        const verify = document.getElementById("verify");
+      
+        const message = document.getElementById("message");
+        var otpCreated = "";
+        const min = 1111;
+        const max = 9999;
+
+        function otpCreate() {
+            otpCreated = "";
+          
+            Username=Uname.value;
+        
+
+            if (Uname.value === "" || email.value === "") {
+                message.textContent = "Please fill out all fields.";
+                message.style.display = "block";
+                return;
+            }
+
+            otpCreated = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            message.style.display = "none";
+            verify.style.display = "block";
+            otp.style.display = "block";
+
+            // Send OTP to the user's email using EmailJS
+         
+            var templateParams = {
+ to_name: Uname.value,
+  message:`Your OTP is ${otpCreated}`,
+  to_email:email.value,
+};
+emailjs.send('service_8qzoxpe', 'template_plz5boo', templateParams).then(
+  (response) => {
+    alert('OTP is Sended to your mail SUCCESS!', response.status, response.text);
+  },
+  (error) => {
+    alert('FAILED...', error);
+  },
+);
+        }
+
+        function Verifying() {
+            if (otp.value === "") {
+                message.textContent = "Please fill out all fields.";
+                message.style.display = "block";
+                return;
+            }
+
+            if (otp.value == otpCreated) {
+                verify.style.display = "none";
+                otp.style.display = "none";
+              
+                name.value = "";
+                email.value = "";
+                alert("You have been verified successfully");
+                return;
+            }
+            alert("Your OTP is wrong, it has been resent to your email");
+            verify.style.display = "block";
+            otp.style.display = "block";
+        }
+    </script>
+</body>
+</html>
