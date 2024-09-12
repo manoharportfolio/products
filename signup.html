@@ -178,11 +178,12 @@ emailjs.send('service_8qzoxpe', 'template_plz5boo', templateParams).then(
                 message.style.display = "block";
                 return;
             }
-
+sessionStorage.setItem('userName',Uname);
             if (otp.value == otpCreated) {
+                sessionStorage.setItem('userName',Uname);
                 verify.style.display = "none";
                 otp.style.display = "none";
-              
+              window.location="/index.html";
                 name.value = "";
                 email.value = "";
                 alert("You have been verified successfully");
