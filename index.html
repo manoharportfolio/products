@@ -178,9 +178,9 @@ emailjs.send('service_8qzoxpe', 'template_plz5boo', templateParams).then(
                 message.style.display = "block";
                 return;
             }
-sessionStorage.setItem('userName',Uname);
+
             if (otp.value == otpCreated) {
-                sessionStorage.setItem('userName',Uname);
+                sessionStorage.setItem('userName',Uname.value);
                 verify.style.display = "none";
                 otp.style.display = "none";
               window.location="/index.html";
